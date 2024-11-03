@@ -1,6 +1,7 @@
 package com.learning.spotifyclone.users.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.learning.spotifyclone.tracks.model.Tracks;
 import com.learning.spotifyclone.users.model.enums.Gender;
 import jakarta.persistence.*;
@@ -15,6 +16,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
 
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -28,6 +30,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     Gender gender;
 
+    @Column(unique = true)
     String email;
 
     String password;
