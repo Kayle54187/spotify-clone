@@ -1,7 +1,9 @@
 package com.learning.spotifyclone.users.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.learning.spotifyclone.albums.model.Albums;
 import com.learning.spotifyclone.tracks.model.Tracks;
 import com.learning.spotifyclone.users.model.enums.Gender;
 import jakarta.persistence.*;
@@ -18,23 +20,19 @@ import java.util.List;
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
-
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Id
-    String id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
-    String firstName;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String password;
+    private Gender gender;
 
-    String lastName;
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Albums> albums;
 
-    @Enumerated(EnumType.STRING)
-    Gender gender;
-
-    @Column(unique = true)
-    String email;
-
-    String password;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    List<Tracks> tracks;
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Tracks> tracks;
 }

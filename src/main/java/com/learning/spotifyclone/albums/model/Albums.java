@@ -1,5 +1,6 @@
 package com.learning.spotifyclone.albums.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.learning.spotifyclone.tracks.model.Tracks;
 import com.learning.spotifyclone.users.model.User;
@@ -17,23 +18,24 @@ import java.util.List;
 @NoArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Albums {
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Id
-    String id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
-    String name;
+    private String name;
 
-    String thumbnail;
+    private String thumbnail;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id")
-    User owner;
+    @JsonIgnore  // Prevents loading user details unless necessary
+    private User owner;
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany
     @JoinTable(
             name = "album_tracks",
             joinColumns = @JoinColumn(name = "album_id"),
             inverseJoinColumns = @JoinColumn(name = "track_id")
     )
-    List<Tracks> tracks;
+    private List<Tracks> tracks;
 }

@@ -6,9 +6,11 @@ import com.learning.spotifyclone.users.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface IUserService {
     void createUser(CreateUserDto user);
-    Page<User> getAllUsers(Pageable pageable);
+    List<User> getAllUsers(Pageable pageable);
     User getUserById(String id);
     User updateUser(String id, UpdateUserDto user);
 }

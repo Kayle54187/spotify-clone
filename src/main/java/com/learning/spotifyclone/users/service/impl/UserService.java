@@ -12,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserService implements IUserService {
@@ -33,7 +35,7 @@ public class UserService implements IUserService {
     }
 
     public User getUserById(String id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFound("User not found"));
+        User user = userRepository.findByIdWithTracksAndAlbums(id).orElseThrow(() -> new ResourceNotFound("User not found"));
         return user;
     }
 
@@ -46,7 +48,7 @@ public class UserService implements IUserService {
         return userRepository.save(userToUpdate);
     }
 
-    public Page<User> getAllUsers(Pageable pageable) {
-        return userRepository.findAll(pageable);
+    public List<User> getAllUsers(Pageable pageable) {
+        return userRepository.findAll();
     }
 }
